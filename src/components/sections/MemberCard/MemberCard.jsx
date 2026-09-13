@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getAssetUrl } from '../../../utils/assetUrl';
 import './MemberCard.css';
 
 export default function MemberCard({ member }) {
@@ -20,7 +21,7 @@ export default function MemberCard({ member }) {
           <div className={`member-avatar${showPhoto ? ' member-avatar--photo' : ''}`}>
             {showPhoto ? (
               <img
-                src={photo}
+                src={getAssetUrl(photo)}
                 alt={name}
                 className="member-photo"
                 loading="lazy"

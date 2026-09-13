@@ -2,6 +2,7 @@ import React from 'react';
 import { usePage } from '../context/PageContext';
 import { eventDetails } from '../data/eventDetails';
 import events from '../data/events';
+import { getAssetUrl } from '../utils/assetUrl';
 import '../components/sections/About/About.css';
 import '../components/sections/EventCard/EventCard.css';
 import './EventDetailPage.css';
@@ -13,12 +14,13 @@ export default function EventDetailPage() {
   const { activeEventId, navigateTo } = usePage();
   const eventDetail = eventDetails[activeEventId];
   const eventBase = events.find(e => e.id === activeEventId);
-  const detailBackgroundImage =
+  const detailBackgroundImage = getAssetUrl(
     activeEventId === 9
       ? LA_FIESTA_5_DETAIL_BACKGROUND_IMAGE
       : activeEventId === 1
       ? LA_FIESTA_DETAIL_BACKGROUND_IMAGE
-      : eventBase?.image || LA_FIESTA_DETAIL_BACKGROUND_IMAGE;
+      : eventBase?.image || LA_FIESTA_DETAIL_BACKGROUND_IMAGE
+  );
 
   if (!eventDetail || !eventBase) {
     return (

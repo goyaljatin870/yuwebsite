@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import { getAssetUrl } from '../../utils/assetUrl';
 
 const svgPlaceholder = (w, h) =>
   `data:image/svg+xml,${encodeURIComponent(
@@ -6,7 +7,8 @@ const svgPlaceholder = (w, h) =>
   )}`;
 
 /**
- * External image: primary URL, then deterministic Picsum seed, then local SVG gradient.
+ * Image component that automatically resolves relative paths with PUBLIC_URL
+ * and cleanly falls back to an SVG placeholder without flashing random third-party photos.
  */
 export default function RemoteImage({
   src,
@@ -22,21 +24,14 @@ export default function RemoteImage({
   const w = Math.min(Number(width) || 800, 1200);
   const h = Math.min(Number(height) || 600, 1200);
 
-  const fallbackSrc = useMemo(
-    () =>
-      `https://picsum.photos/seed/${encodeURIComponent(String(fallbackSeed))}/${w}/${h}`,
-    [fallbackSeed, w, h]
-  );
+  const resolvedSrc = useMemo(() => getAssetUrl(src), [src]);
+  const placeholderSrc = useMemo(() => svgPlaceholder(w, h), [w, h]);
 
-  const finalSrc = useMemo(() => svgPlaceholder(w, h), [w, h]);
-
-  /** 0 = primary, 1 = picsum, 2 = data-uri (stop) */
-  const [tier, setTier] = useState(0);
-
-  const currentSrc = tier === 0 ? src : tier === 1 ? fallbackSrc : finalSrc;
+  const [failed, setFailed] = useState(false);
+  const currentSrc = failed ? placeholderSrc : resolvedSrc;
 
   const onError = useCallback(() => {
-    setTier((t) => (t < 2 ? t + 1 : t));
+    setFailed(true);
   }, []);
 
   return (

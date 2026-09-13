@@ -11,7 +11,7 @@ const PREVIEW_EVENT = {
     'A nationwide festival of giving celebrated by Youth United through community donation drives, volunteer action, and spreading kindness to underprivileged families across Patiala.',
 };
 
-const PREVIEW_BANNER_MEDIA = '/images/events/utsav-e-solace-preview.png';
+const PREVIEW_BANNER_MEDIA = `${process.env.PUBLIC_URL || ''}/images/events/utsav-e-solace-preview.png`;
 
 export default function EventsPreviewSection() {
   const { navigateTo } = usePage();
