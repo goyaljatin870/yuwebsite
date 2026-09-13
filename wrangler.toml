@@ -1,0 +1,32 @@
+name = "youth-united"
+type = "javascript"
+account_id = ""
+workers_dev = true
+routes = []
+zone_id = ""
+
+# Deployment configuration
+
+# Build configuration
+[env.production]
+name = "youth-united-production"
+routes = [
+  { pattern = "youthunited.pages.dev", zone_name = "youthunited.com" }
+]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+name = "youth-united-staging"
+routes = [
+  { pattern = "staging.youthunited.pages.dev", zone_name = "youthunited.com" }
+]
+vars = { ENVIRONMENT = "staging" }
+
+# Build process
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.jsx", "src/**/*.js", "src/**/*.css", "public/**/*"]
+
+[build.upload]
+format = "service-worker"

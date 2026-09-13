@@ -1,0 +1,177 @@
+.members-page-section {
+  padding: 28px clamp(20px, 5vw, 80px) 64px;
+}
+.members-page-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.members-role-tabs {
+  gap: 8px 10px;
+  justify-content: flex-start;
+}
+.members-role-tabs .filter-tab {
+  padding: 9px 16px;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  text-align: center;
+  max-width: 100%;
+}
+.members-empty-hint {
+  color: var(--grey-400);
+  text-align: center;
+  padding: 48px 0 0;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Website Developers cards: slightly smaller and more compact */
+.team-block--tech .faculty-grid {
+  max-width: 740px;
+  gap: 18px;
+}
+
+.team-block--tech .member-card,
+.team-block--tech .member-card-inner {
+  min-height: 310px;
+}
+
+.team-block--tech .member-card-face {
+  padding: 22px;
+}
+
+.team-block--tech .member-avatar {
+  width: 74px;
+  height: 74px;
+  font-size: 1.35rem;
+}
+
+.team-block--tech .member-name {
+  font-size: 1.05rem;
+}
+
+.team-block--tech .member-bio {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Multi-tier student executive structure */
+.members-row-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.members-row-tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.members-tier-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.members-tier-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--green-deep);
+  background: var(--green-pale);
+  padding: 6px 18px;
+  border-radius: 99px;
+  border: 1px solid rgba(216, 139, 153, 0.5);
+}
+
+/* Row 1 — 2 cards */
+.members-grid-row-1 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 360px));
+  gap: 28px;
+  justify-content: center;
+  width: 100%;
+}
+@media (max-width: 680px) {
+  .members-grid-row-1 {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+  }
+}
+
+/* Row 2 — 3 cards */
+.members-grid-row-2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(260px, 360px));
+  gap: 28px;
+  justify-content: center;
+  width: 100%;
+}
+@media (max-width: 960px) {
+  .members-grid-row-2 {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    max-width: 760px;
+  }
+}
+@media (max-width: 640px) {
+  .members-grid-row-2 {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+  }
+}
+
+/* Row 3 — 6 columns */
+.members-grid-row-3 {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+.members-grid-row-3 .member-card {
+  min-height: 330px;
+}
+.members-grid-row-3 .member-card-inner {
+  min-height: 330px;
+}
+.members-grid-row-3 .member-card-face {
+  padding: 22px 12px;
+}
+.members-grid-row-3 .member-avatar {
+  width: 72px;
+  height: 72px;
+  font-size: 1.35rem;
+}
+.members-grid-row-3 .member-name {
+  font-size: 1.02rem;
+}
+.members-grid-row-3 .member-role {
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+}
+.members-grid-row-3 .member-bio {
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 1200px) {
+  .members-grid-row-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .members-grid-row-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+@media (max-width: 480px) {
+  .members-grid-row-3 {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+  }
+}
+
