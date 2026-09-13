@@ -27,7 +27,6 @@ export default function HomeAboutSection() {
               width={600}
               height={600}
               loading="lazy"
-              fallbackSeed="yu-about-main"
             />
           </div>
         </div>

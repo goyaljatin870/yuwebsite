@@ -1,6 +1,7 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { usePage } from '../../../context/PageContext';
 import { HERO_IMAGE, HOME_BACKGROUND_IMAGE } from '../../../constants/media';
+import { getRawGithubUrl } from '../../../utils/assetUrl';
 import RemoteImage from '../../ui/RemoteImage';
 import useEnableWebGL from '../../../hooks/useEnableWebGL';
 import './HeroSection.css';
@@ -11,17 +12,19 @@ const HeroMiniBlobScene = lazy(() => import('../../three/HeroMiniBlobScene'));
 export default function HeroSection() {
   const { navigateTo } = usePage();
   const webgl = useEnableWebGL(900);
+  const [bgSrc, setBgSrc] = useState(HOME_BACKGROUND_IMAGE);
 
   return (
     <section className="hero">
       <div className="hero-photo-bg-layer" aria-hidden>
         <img
-          src={HOME_BACKGROUND_IMAGE}
+          src={bgSrc}
           alt=""
           className="hero-photo-bg-image"
           loading="lazy"
           decoding="async"
           fetchPriority="low"
+          onError={() => setBgSrc(getRawGithubUrl('/images/home/home-group-bg.jpg'))}
         />
         <div className="hero-photo-bg-gradient"></div>
         <div className="hero-photo-bg-vignette"></div>
@@ -73,7 +76,6 @@ export default function HeroSection() {
                 alt="Students collaborating on a community project"
                 width={640}
                 height={800}
-                fallbackSeed="yu-hero"
               />
             </div>
           </div>

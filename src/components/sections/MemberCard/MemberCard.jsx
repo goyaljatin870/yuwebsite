@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
-import { getAssetUrl } from '../../../utils/assetUrl';
+import React, { useState, useEffect, useCallback } from 'react';
+import { getAssetUrl, getRawGithubUrl } from '../../../utils/assetUrl';
 import './MemberCard.css';
 
 export default function MemberCard({ member }) {
   const { name, role, department, year, initials, bio, faculty, photo, photoPosition, socials } = member;
+  const [photoSrc, setPhotoSrc] = useState(() => getAssetUrl(photo));
   const [photoFailed, setPhotoFailed] = useState(false);
   const showPhoto = Boolean(photo) && !photoFailed;
   const resolvedPhotoPosition = photoPosition || 'center top';
+
+  useEffect(() => {
+    setPhotoSrc(getAssetUrl(photo));
+    setPhotoFailed(false);
+  }, [photo]);
+
+  const handlePhotoError = useCallback(() => {
+    const rawUrl = getRawGithubUrl(photo);
+    if (photoSrc !== rawUrl && rawUrl) {
+      setPhotoSrc(rawUrl);
+    } else {
+      setPhotoFailed(true);
+    }
+  }, [photo, photoSrc]);
 
   const isRealLink = (url) => typeof url === 'string' && url.trim() !== '' && url !== '#';
   const socialItems = [
@@ -21,13 +36,13 @@ export default function MemberCard({ member }) {
           <div className={`member-avatar${showPhoto ? ' member-avatar--photo' : ''}`}>
             {showPhoto ? (
               <img
-                src={getAssetUrl(photo)}
+                src={photoSrc}
                 alt={name}
                 className="member-photo"
                 loading="lazy"
                 decoding="async"
                 style={{ objectPosition: resolvedPhotoPosition }}
-                onError={() => setPhotoFailed(true)}
+                onError={handlePhotoError}
               />
             ) : (
               initials

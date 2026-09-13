@@ -22,7 +22,6 @@ export default function EventCard({ event, className = '' }) {
             width={800}
             height={440}
             loading="lazy"
-            fallbackSeed={`yu-event-${event.id}`}
           />
         ) : (
           <div className="event-card-img-ph">

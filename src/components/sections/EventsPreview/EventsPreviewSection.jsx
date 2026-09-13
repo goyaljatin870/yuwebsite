@@ -1,5 +1,7 @@
 import React from 'react';
 import { usePage } from '../../../context/PageContext';
+import RemoteImage from '../../ui/RemoteImage';
+import { getAssetUrl } from '../../../utils/assetUrl';
 import './EventsPreviewSection.css';
 
 const PREVIEW_EVENT = {
@@ -11,11 +13,11 @@ const PREVIEW_EVENT = {
     'A nationwide festival of giving celebrated by Youth United through community donation drives, volunteer action, and spreading kindness to underprivileged families across Patiala.',
 };
 
-const PREVIEW_BANNER_MEDIA = `${process.env.PUBLIC_URL || ''}/images/events/utsav-e-solace-preview.png`;
+const PREVIEW_BANNER_PATH = '/images/events/utsav-e-solace-preview.png';
 
 export default function EventsPreviewSection() {
   const { navigateTo } = usePage();
-  const isVideoBanner = /\.(mp4|webm|ogg)$/i.test(PREVIEW_BANNER_MEDIA);
+  const isVideoBanner = /\.(mp4|webm|ogg)$/i.test(PREVIEW_BANNER_PATH);
 
   return (
     <div className="events-section">
@@ -39,11 +41,11 @@ export default function EventsPreviewSection() {
           tabIndex={0}
         >
           <div className="event-banner-image-container">
-            {PREVIEW_BANNER_MEDIA ? (
+            {PREVIEW_BANNER_PATH ? (
               isVideoBanner ? (
                 <video
                   className="event-banner-video"
-                  src={PREVIEW_BANNER_MEDIA}
+                  src={getAssetUrl(PREVIEW_BANNER_PATH)}
                   autoPlay
                   muted
                   loop
@@ -51,7 +53,13 @@ export default function EventsPreviewSection() {
                   preload="metadata"
                 />
               ) : (
-                <img src={PREVIEW_BANNER_MEDIA} alt="Daan Utsav — Festival of Giving" className="event-banner-photo" />
+                <RemoteImage
+                  src={PREVIEW_BANNER_PATH}
+                  alt="Daan Utsav — Festival of Giving"
+                  className="event-banner-photo"
+                  width={1200}
+                  height={600}
+                />
               )
             ) : (
               <div className="event-banner-img-ph">

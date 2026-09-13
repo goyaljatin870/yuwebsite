@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { getAssetUrl } from '../../utils/assetUrl';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { getAssetUrl, getRawGithubUrl } from '../../utils/assetUrl';
 
 const svgPlaceholder = (w, h) =>
   `data:image/svg+xml,${encodeURIComponent(
@@ -7,7 +7,8 @@ const svgPlaceholder = (w, h) =>
   )}`;
 
 /**
- * Image component that automatically resolves relative paths with PUBLIC_URL
+ * Image component that automatically resolves relative paths with PUBLIC_URL,
+ * gracefully retries with GitHub raw CDN if relative hosting fails,
  * and cleanly falls back to an SVG placeholder without flashing random third-party photos.
  */
 export default function RemoteImage({
@@ -24,14 +25,31 @@ export default function RemoteImage({
   const h = Math.min(Number(height) || 600, 1200);
 
   const resolvedSrc = useMemo(() => getAssetUrl(src), [src]);
+  const rawSrc = useMemo(() => getRawGithubUrl(src), [src]);
   const placeholderSrc = useMemo(() => svgPlaceholder(w, h), [w, h]);
 
-  const [failed, setFailed] = useState(false);
-  const currentSrc = failed ? placeholderSrc : resolvedSrc;
+  // tier: 0 = resolvedSrc, 1 = rawSrc, 2 = placeholderSrc
+  const [tier, setTier] = useState(0);
+
+  useEffect(() => {
+    setTier(0);
+  }, [src]);
+
+  let currentSrc = resolvedSrc;
+  if (tier === 1) {
+    currentSrc = rawSrc;
+  } else if (tier >= 2) {
+    currentSrc = placeholderSrc;
+  }
 
   const onError = useCallback(() => {
-    setFailed(true);
-  }, []);
+    setTier((prevTier) => {
+      if (prevTier === 0 && rawSrc && rawSrc !== resolvedSrc) {
+        return 1;
+      }
+      return 2;
+    });
+  }, [rawSrc, resolvedSrc]);
 
   return (
     <img
@@ -44,7 +62,8 @@ export default function RemoteImage({
       loading={loading}
       decoding={decoding}
       referrerPolicy="no-referrer"
-      onError={!failed ? onError : undefined}
+      onError={tier < 2 ? onError : undefined}
     />
   );
 }
+
