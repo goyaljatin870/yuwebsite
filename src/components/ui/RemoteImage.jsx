@@ -17,7 +17,6 @@ export default function RemoteImage({
   width,
   height,
   loading,
-  fallbackSeed = 'yu',
   decoding = 'async',
   ...rest
 }) {
@@ -45,7 +44,7 @@ export default function RemoteImage({
       loading={loading}
       decoding={decoding}
       referrerPolicy="no-referrer"
-      onError={tier < 2 ? onError : undefined}
+      onError={!failed ? onError : undefined}
     />
   );
 }
